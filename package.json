@@ -1,0 +1,14 @@
+{
+  "name": "autoparts-pro-backend",
+  "version": "1.0.0",
+  "description": "AutoPartsPro E-commerce Backend — UCT Full Stack Internship Project",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node --watch server.js"
+  },
+  "keywords": ["ecommerce", "nodejs", "rest-api", "fullstack"],
+  "author": "UCT Internship",
+  "license": "MIT",
+  "dependencies": {}
+}
