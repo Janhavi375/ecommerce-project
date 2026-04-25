@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AutoParts Pro — Premium Automotive Parts</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0a0a0f;
+    --surface: #111118;
+    --surface2: #1a1a24;
+    --border: rgba(255,255,255,0.08);
+    --text: #f0efe8;
+    --muted: #888795;
+    --accent: #e8c547;
+    --accent2: #ff6b35;
+    --red: #e25050;
+    --green: #4caf82;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: var(--bg); color: var(--text); font-family: 'DM Sans', sans-serif; font-size: 15px; line-height: 1.6; }
+  h1,h2,h3,h4 { font-family: 'Syne', sans-serif; }
+
+  /* NAV */
+  nav {
+    position: sticky; top: 0; z-index: 100;
+    background: rgba(10,10,15,0.92); backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+    padding: 0 2rem; display: flex; align-items: center; gap: 2rem; height: 60px;
+  }
+  .logo { font-family: 'Syne', sans-serif; font-weight: 800; font-size: 1.2rem; color: var(--accent); letter-spacing: -0.5px; text-decoration: none; }
+  .logo span { color: var(--text); }
+  nav .links { display: flex; gap: 1.5rem; flex: 1; }
+  nav .links a { color: var(--muted); text-decoration: none; font-size: 14px; transition: color .2s; }
+  nav .links a:hover { color: var(--text); }
+  .nav-actions { display: flex; gap: .75rem; align-items: center; }
+  .btn { display: inline-flex; align-items: center; gap: .4rem; padding: .45rem 1rem; border-radius: 6px; font-size: 13px; font-weight: 500; cursor: pointer; transition: all .2s; border: none; }
+  .btn-ghost { background: transparent; color: var(--muted); border: 1px solid var(--border); }
+  .btn-ghost:hover { color: var(--text); border-color: rgba(255,255,255,0.2); }
+  .btn-accent { background: var(--accent); color: #000; font-weight: 600; }
+  .btn-accent:hover { background: #f0d060; }
+  .cart-badge { position: relative; }
+  .badge { position: absolute; top: -6px; right: -6px; background: var(--accent2); color: #fff; font-size: 10px; font-weight: 700; width: 18px; height: 18px; border-radius: 50%; display: flex; align-items: center; justify-content: center; }
+
+  /* HERO */
+  .hero {
+    min-height: 520px; display: flex; align-items: center;
+    background: linear-gradient(135deg, #0a0a0f 0%, #12121e 60%, #1a1020 100%);
+    border-bottom: 1px solid var(--border); position: relative; overflow: hidden; padding: 4rem 2rem;
+  }
+  .hero::before {
+    content: ''; position: absolute; top: -100px; right: -100px;
+    width: 600px; height: 600px; border-radius: 50%;
+    background: radial-gradient(circle, rgba(232,197,71,0.08) 0%, transparent 70%);
+  }
+  .hero-content { max-width: 560px; position: relative; z-index: 1; }
+  .hero-tag { display: inline-flex; align-items: center; gap: .4rem; background: rgba(232,197,71,0.12); color: var(--accent); border: 1px solid rgba(232,197,71,0.3); padding: .3rem .8rem; border-radius: 20px; font-size: 12px; font-weight: 600; margin-bottom: 1.5rem; text-transform: uppercase; letter-spacing: 1px; }
+  .hero h1 { font-size: 3.5rem; font-weight: 800; line-height: 1.05; margin-bottom: 1rem; }
+  .hero h1 span { color: var(--accent); }
+  .hero p { color: var(--muted); font-size: 16px; margin-bottom: 2rem; max-width: 440px; line-height: 1.7; }
+  .hero-actions { display: flex; gap: 1rem; flex-wrap: wrap; }
+  .btn-lg { padding: .75rem 1.75rem; font-size: 15px; border-radius: 8px; }
+  .hero-stats { display: flex; gap: 2.5rem; margin-top: 3rem; }
+  .stat-item h3 { font-size: 1.6rem; font-weight: 700; color: var(--accent); }
+  .stat-item p { font-size: 12px; color: var(--muted); }
+
+  /* SEARCH BAR */
+  .search-section { background: var(--surface); border-bottom: 1px solid var(--border); padding: 1.25rem 2rem; }
+  .search-wrap { max-width: 1200px; margin: 0 auto; display: flex; gap: 1rem; align-items: center; }
+  .search-box { flex: 1; display: flex; align-items: center; background: var(--surface2); border: 1px solid var(--border); border-radius: 8px; overflow: hidden; }
+  .search-box input { flex: 1; background: transparent; border: none; padding: .75rem 1rem; color: var(--text); font-size: 14px; outline: none; }
+  .search-box input::placeholder { color: var(--muted); }
+  .search-box button { background: var(--accent); border: none; padding: .75rem 1.25rem; cursor: pointer; font-weight: 600; font-size: 14px; }
+  .filter-select { background: var(--surface2); border: 1px solid var(--border); color: var(--text); padding: .75rem 1rem; border-radius: 8px; font-size: 14px; cursor: pointer; outline: none; }
+
+  /* CATEGORIES */
+  .section { padding: 3rem 2rem; max-width: 1200px; margin: 0 auto; }
+  .section-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; }
+  .section-header h2 { font-size: 1.5rem; font-weight: 700; }
+  .section-header a { color: var(--accent); text-decoration: none; font-size: 14px; }
+  .categories { display: grid; grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); gap: 1rem; }
+  .cat-card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 1.5rem 1rem; text-align: center; cursor: pointer; transition: all .2s; text-decoration: none; color: var(--text); }
+  .cat-card:hover { border-color: var(--accent); background: var(--surface2); transform: translateY(-2px); }
+  .cat-icon { font-size: 2rem; margin-bottom: .75rem; display: block; }
+  .cat-card p { font-size: 13px; font-weight: 500; }
+  .cat-card span { font-size: 11px; color: var(--muted); }
+
+  /* PRODUCTS */
+  .products { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 1.25rem; }
+  .product-card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; overflow: hidden; transition: all .2s; }
+  .product-card:hover { border-color: rgba(255,255,255,0.2); transform: translateY(-2px); }
+  .product-img { height: 180px; background: var(--surface2); display: flex; align-items: center; justify-content: center; font-size: 4rem; position: relative; }
+  .badge-label { position: absolute; top: 10px; left: 10px; padding: .25rem .6rem; border-radius: 4px; font-size: 11px; font-weight: 700; }
+  .badge-new { background: var(--green); color: #000; }
+  .badge-sale { background: var(--red); color: #fff; }
+  .badge-popular { background: var(--accent2); color: #fff; }
+  .product-info { padding: 1rem; }
+  .product-brand { font-size: 11px; color: var(--accent); font-weight: 600; text-transform: uppercase; letter-spacing: .5px; margin-bottom: .25rem; }
+  .product-name { font-weight: 500; font-size: 14px; margin-bottom: .5rem; line-height: 1.4; }
+  .stars { color: var(--accent); font-size: 12px; }
+  .reviews { color: var(--muted); font-size: 12px; margin-left: .25rem; }
+  .product-price { display: flex; align-items: center; gap: .5rem; margin-top: .75rem; }
+  .price-current { font-size: 1.2rem; font-weight: 700; font-family: 'Syne', sans-serif; }
+  .price-old { font-size: 13px; color: var(--muted); text-decoration: line-through; }
+  .product-actions { display: flex; gap: .5rem; margin-top: .75rem; }
+  .btn-cart { flex: 1; background: var(--accent); color: #000; border: none; padding: .5rem; border-radius: 6px; font-size: 13px; font-weight: 600; cursor: pointer; transition: all .2s; }
+  .btn-cart:hover { background: #f0d060; }
+  .btn-wish { background: transparent; border: 1px solid var(--border); color: var(--muted); padding: .5rem .75rem; border-radius: 6px; font-size: 13px; cursor: pointer; transition: all .2s; }
+  .btn-wish:hover { border-color: var(--red); color: var(--red); }
+
+  /* BANNER */
+  .promo-banner { background: linear-gradient(135deg, #1a1020, #0d1525); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); padding: 3rem 2rem; text-align: center; position: relative; overflow: hidden; }
+  .promo-banner::after { content: '50% OFF'; position: absolute; right: -40px; top: 50%; transform: translateY(-50%) rotate(15deg); font-family: 'Syne', sans-serif; font-size: 8rem; font-weight: 800; color: rgba(232,197,71,0.04); pointer-events: none; }
+  .promo-banner h2 { font-size: 2.5rem; margin-bottom: .5rem; }
+  .promo-banner h2 span { color: var(--accent); }
+  .promo-banner p { color: var(--muted); margin-bottom: 1.5rem; }
+  .countdown { display: flex; gap: 1rem; justify-content: center; margin-bottom: 2rem; }
+  .count-box { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 1rem; min-width: 70px; text-align: center; }
+  .count-box span:first-child { display: block; font-family: 'Syne', sans-serif; font-size: 2rem; font-weight: 700; color: var(--accent); }
+  .count-box span:last-child { font-size: 11px; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; }
+
+  /* FEATURES */
+  .features-strip { background: var(--surface); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); padding: 2rem; }
+  .features-grid { max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1.5rem; }
+  .feature { display: flex; align-items: flex-start; gap: 1rem; }
+  .feature-icon { font-size: 1.75rem; flex-shrink: 0; }
+  .feature h4 { font-size: 14px; font-weight: 600; margin-bottom: .2rem; }
+  .feature p { font-size: 13px; color: var(--muted); }
+
+  /* CART SIDEBAR */
+  .overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.7); z-index: 200; display: none; }
+  .cart-sidebar { position: fixed; right: 0; top: 0; bottom: 0; width: 380px; background: var(--surface); border-left: 1px solid var(--border); z-index: 201; transform: translateX(100%); transition: transform .3s; display: flex; flex-direction: column; }
+  .cart-sidebar.open { transform: translateX(0); }
+  .overlay.open { display: block; }
+  .cart-header { padding: 1.5rem; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; }
+  .cart-header h3 { font-size: 1.1rem; font-weight: 700; }
+  .close-btn { background: transparent; border: 1px solid var(--border); color: var(--muted); width: 32px; height: 32px; border-radius: 6px; cursor: pointer; font-size: 16px; display: flex; align-items: center; justify-content: center; }
+  .cart-items { flex: 1; overflow-y: auto; padding: 1rem 1.5rem; }
+  .cart-item { display: flex; gap: 1rem; padding: 1rem 0; border-bottom: 1px solid var(--border); }
+  .cart-item-img { width: 64px; height: 64px; background: var(--surface2); border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 1.75rem; flex-shrink: 0; }
+  .cart-item-info { flex: 1; }
+  .cart-item-info p { font-size: 13px; font-weight: 500; margin-bottom: .25rem; }
+  .cart-item-info span { font-size: 12px; color: var(--muted); }
+  .cart-item-price { font-weight: 700; color: var(--accent); }
+  .qty-ctrl { display: flex; align-items: center; gap: .5rem; margin-top: .4rem; }
+  .qty-btn { background: var(--surface2); border: 1px solid var(--border); color: var(--text); width: 24px; height: 24px; border-radius: 4px; cursor: pointer; font-size: 14px; display: flex; align-items: center; justify-content: center; }
+  .qty-val { font-size: 13px; font-weight: 500; min-width: 20px; text-align: center; }
+  .remove-btn { background: transparent; border: none; color: var(--muted); cursor: pointer; font-size: 12px; padding: .2rem .4rem; border-radius: 4px; }
+  .remove-btn:hover { color: var(--red); }
+  .cart-footer { padding: 1.5rem; border-top: 1px solid var(--border); }
+  .cart-total { display: flex; justify-content: space-between; font-weight: 700; margin-bottom: 1rem; font-size: 1.05rem; }
+  .btn-checkout { width: 100%; background: var(--accent); color: #000; border: none; padding: .9rem; border-radius: 8px; font-size: 15px; font-weight: 700; cursor: pointer; font-family: 'Syne', sans-serif; transition: all .2s; }
+  .btn-checkout:hover { background: #f0d060; }
+
+  /* FOOTER */
+  footer { background: var(--surface); border-top: 1px solid var(--border); padding: 3rem 2rem 1.5rem; margin-top: 3rem; }
+  .footer-grid { max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 2rem; margin-bottom: 2rem; }
+  .footer-col h4 { font-size: 14px; font-weight: 600; margin-bottom: 1rem; }
+  .footer-col p { font-size: 13px; color: var(--muted); line-height: 1.7; }
+  .footer-col ul { list-style: none; }
+  .footer-col ul li { margin-bottom: .5rem; }
+  .footer-col ul li a { color: var(--muted); text-decoration: none; font-size: 13px; transition: color .2s; }
+  .footer-col ul li a:hover { color: var(--text); }
+  .footer-bottom { max-width: 1200px; margin: 0 auto; border-top: 1px solid var(--border); padding-top: 1.5rem; display: flex; justify-content: space-between; align-items: center; color: var(--muted); font-size: 13px; }
+
+  /* TOAST */
+  .toast { position: fixed; bottom: 2rem; right: 2rem; background: var(--surface); border: 1px solid var(--green); color: var(--text); padding: 1rem 1.5rem; border-radius: 10px; font-size: 14px; display: none; align-items: center; gap: .75rem; z-index: 300; box-shadow: 0 8px 32px rgba(0,0,0,0.5); }
+  .toast.show { display: flex; animation: slideIn .3s ease; }
+  @keyframes slideIn { from { transform: translateY(20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+  .toast-icon { color: var(--green); font-size: 1.1rem; }
+
+  /* NOTIFICATION DOT */
+  .notification-dot { width: 8px; height: 8px; background: var(--accent2); border-radius: 50%; display: inline-block; }
+
+  @media (max-width: 768px) {
+    .hero h1 { font-size: 2.2rem; }
+    .footer-grid { grid-template-columns: 1fr 1fr; }
+    .cart-sidebar { width: 100%; }
+    nav .links { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAVIGATION -->
+<nav>
+  <a href="#" class="logo">Auto<span>Parts</span><span style="color:var(--accent2)">Pro</span></a>
+  <div class="links">
+    <a href="#">Shop</a>
+    <a href="#">Brands</a>
+    <a href="#">Deals</a>
+    <a href="#">Track Order</a>
+    <a href="#">Support</a>
+  </div>
+  <div class="nav-actions">
+    <button class="btn btn-ghost" style="font-size:13px;">🔍 Search</button>
+    <button class="btn btn-ghost" style="font-size:13px;">👤 Account</button>
+    <div class="cart-badge">
+      <button class="btn btn-accent" onclick="toggleCart()" id="cartBtn">🛒 Cart</button>
+      <span class="badge" id="cartCount">0</span>
+    </div>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-content">
+    <div class="hero-tag">⚡ Free Shipping Over ₹999</div>
+    <h1>Premium <span>Auto Parts</span><br>Delivered Fast</h1>
+    <p>Shop 50,000+ genuine and aftermarket parts for all makes and models. Expert fitment guaranteed or your money back.</p>
+    <div class="hero-actions">
+      <button class="btn btn-accent btn-lg">Shop by Vehicle →</button>
+      <button class="btn btn-ghost btn-lg">Browse Catalog</button>
+    </div>
+    <div class="hero-stats">
+      <div class="stat-item"><h3>50K+</h3><p>Products</p></div>
+      <div class="stat-item"><h3>2M+</h3><p>Customers</p></div>
+      <div class="stat-item"><h3>99%</h3><p>Fitment Rate</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- SEARCH -->
+<div class="search-section">
+  <div class="search-wrap">
+    <select class="filter-select">
+      <option>All Categories</option>
+      <option>Engine Parts</option>
+      <option>Brakes</option>
+      <option>Suspension</option>
+      <option>Electrical</option>
+      <option>Tyres</option>
+    </select>
+    <div class="search-box">
+      <input type="text" placeholder="Search parts by name, part number, or vehicle..." id="searchInput">
+      <button>Search</button>
+    </div>
+    <select class="filter-select">
+      <option>All Makes</option>
+      <option>Maruti Suzuki</option>
+      <option>Hyundai</option>
+      <option>Tata</option>
+      <option>Honda</option>
+      <option>Toyota</option>
+    </select>
+  </div>
+</div>
+
+<!-- CATEGORIES -->
+<div class="section">
+  <div class="section-header">
+    <h2>Shop by Category</h2>
+    <a href="#">All Categories →</a>
+  </div>
+  <div class="categories">
+    <a class="cat-card" href="#"><span class="cat-icon">🔧</span><p>Engine Parts</p><span>8,230 items</span></a>
+    <a class="cat-card" href="#"><span class="cat-icon">🛞</span><p>Tyres</p><span>3,450 items</span></a>
+    <a class="cat-card" href="#"><span class="cat-icon">🔴</span><p>Brakes</p><span>4,120 items</span></a>
+    <a class="cat-card" href="#"><span class="cat-icon">⚡</span><p>Electrical</p><span>6,780 items</span></a>
+    <a class="cat-card" href="#"><span class="cat-icon">🔩</span><p>Suspension</p><span>2,900 items</span></a>
+    <a class="cat-card" href="#"><span class="cat-icon">💡</span><p>Lights</p><span>1,850 items</span></a>
+    <a class="cat-card" href="#"><span class="cat-icon">❄️</span><p>AC & Cooling</p><span>1,200 items</span></a>
+    <a class="cat-card" href="#"><span class="cat-icon">🛠️</span><p>Tools</p><span>990 items</span></a>
+  </div>
+</div>
+
+<!-- FEATURED PRODUCTS -->
+<div class="section" style="padding-top:0">
+  <div class="section-header">
+    <h2>Featured Products</h2>
+    <a href="#">View all →</a>
+  </div>
+  <div class="products" id="productGrid">
+    <!-- Products inserted by JS -->
+  </div>
+</div>
+
+<!-- PROMO BANNER -->
+<div class="promo-banner">
+  <h2>Flash Sale — Up to <span>50% OFF</span></h2>
+  <p>Deals end when the timer hits zero. Grab yours now!</p>
+  <div class="countdown">
+    <div class="count-box"><span id="hours">04</span><span>Hours</span></div>
+    <div class="count-box"><span id="mins">37</span><span>Mins</span></div>
+    <div class="count-box"><span id="secs">22</span><span>Secs</span></div>
+  </div>
+  <button class="btn btn-accent btn-lg">Shop Flash Sale →</button>
+</div>
+
+<!-- MORE PRODUCTS -->
+<div class="section">
+  <div class="section-header">
+    <h2>New Arrivals</h2>
+    <a href="#">View all →</a>
+  </div>
+  <div class="products" id="newArrivalsGrid"></div>
+</div>
+
+<!-- FEATURES -->
+<div class="features-strip">
+  <div class="features-grid">
+    <div class="feature">
+      <span class="feature-icon">🚚</span>
+      <div><h4>Free Shipping</h4><p>On all orders above ₹999 across India</p></div>
+    </div>
+    <div class="feature">
+      <span class="feature-icon">🔄</span>
+      <div><h4>Easy Returns</h4><p>30-day hassle-free return policy</p></div>
+    </div>
+    <div class="feature">
+      <span class="feature-icon">🛡️</span>
+      <div><h4>Genuine Parts</h4><p>OEM and certified aftermarket quality</p></div>
+    </div>
+    <div class="feature">
+      <span class="feature-icon">💬</span>
+      <div><h4>Expert Support</h4><p>Talk to our fitment specialists 24/7</p></div>
+    </div>
+    <div class="feature">
+      <span class="feature-icon">🔒</span>
+      <div><h4>Secure Payments</h4><p>UPI, cards, and net banking accepted</p></div>
+    </div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-grid">
+    <div class="footer-col">
+      <div class="logo" style="font-size:1.1rem;display:block;margin-bottom:.75rem;">Auto<span style="color:var(--text)">Parts</span><span style="color:var(--accent2)">Pro</span></div>
+      <p>India's most trusted online store for genuine and aftermarket auto parts. 50,000+ SKUs, 2M+ happy customers.</p>
+    </div>
+    <div class="footer-col">
+      <h4>Shop</h4>
+      <ul>
+        <li><a href="#">Engine Parts</a></li>
+        <li><a href="#">Brakes & Clutch</a></li>
+        <li><a href="#">Tyres & Wheels</a></li>
+        <li><a href="#">Electrical Parts</a></li>
+        <li><a href="#">Tools & Equipment</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Help</h4>
+      <ul>
+        <li><a href="#">Track My Order</a></li>
+        <li><a href="#">Returns & Refunds</a></li>
+        <li><a href="#">Fitment Guide</a></li>
+        <li><a href="#">Contact Us</a></li>
+        <li><a href="#">FAQs</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Company</h4>
+      <ul>
+        <li><a href="#">About Us</a></li>
+        <li><a href="#">Careers</a></li>
+        <li><a href="#">Sell With Us</a></li>
+        <li><a href="#">Privacy Policy</a></li>
+        <li><a href="#">Terms of Service</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2025 AutoPartsPro. All rights reserved. Built as UCT Full Stack Internship Project.</span>
+    <span>Made with ❤️ in India</span>
+  </div>
+</footer>
+
+<!-- CART SIDEBAR -->
+<div class="overlay" id="overlay" onclick="toggleCart()"></div>
+<div class="cart-sidebar" id="cartSidebar">
+  <div class="cart-header">
+    <h3>🛒 Shopping Cart</h3>
+    <button class="close-btn" onclick="toggleCart()">✕</button>
+  </div>
+  <div class="cart-items" id="cartItems">
+    <p style="color:var(--muted);text-align:center;margin-top:3rem;font-size:14px;">Your cart is empty</p>
+  </div>
+  <div class="cart-footer" id="cartFooter" style="display:none">
+    <div class="cart-total"><span>Total</span><span id="cartTotal">₹0</span></div>
+    <button class="btn-checkout">Proceed to Checkout →</button>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast">
+  <span class="toast-icon">✓</span>
+  <span id="toastMsg">Item added to cart!</span>
+</div>
+
+<script>
+const products = [
+  { id:1, name:"Bosch Spark Plug Set (Pack of 4)", brand:"Bosch", price:849, oldPrice:1199, icon:"⚡", badge:"popular", rating:4.8, reviews:2341 },
+  { id:2, name:"Minda LED Headlight Bulb H4", brand:"Minda", price:1249, oldPrice:1699, icon:"💡", badge:"sale", rating:4.6, reviews:876 },
+  { id:3, name:"Castrol GTX 5W-30 Engine Oil 5L", brand:"Castrol", price:1799, oldPrice:null, icon:"🛢️", badge:"new", rating:4.9, reviews:5120 },
+  { id:4, name:"Maruti Suzuki Air Filter OEM", brand:"Maruti", price:599, oldPrice:799, icon:"🌬️", badge:null, rating:4.7, reviews:1280 },
+  { id:5, name:"TVS Eurogrip Tyre 185/65 R15", brand:"TVS", price:4299, oldPrice:4999, icon:"🛞", badge:"sale", rating:4.5, reviews:654 },
+  { id:6, name:"Valeo Wiper Blade Set 24\"+16\"", brand:"Valeo", price:699, oldPrice:null, icon:"🪟", badge:"new", rating:4.4, reviews:430 },
+  { id:7, name:"Denso AC Compressor Belt", brand:"Denso", price:349, oldPrice:449, icon:"⚙️", badge:null, rating:4.6, reviews:892 },
+  { id:8, name:"Amaron Pro 44B20L Car Battery", brand:"Amaron", price:3499, oldPrice:3999, icon:"🔋", badge:"popular", rating:4.8, reviews:3210 },
+];
+
+const newArrivals = [
+  { id:9, name:"MRF Nylogrip Tyre 195/55 R16", brand:"MRF", price:5199, oldPrice:null, icon:"🛞", badge:"new", rating:4.7, reviews:128 },
+  { id:10, name:"Hyundai i20 Rear Brake Pads OEM", brand:"Hyundai", price:899, oldPrice:1199, icon:"🔴", badge:"new", rating:4.5, reviews:67 },
+  { id:11, name:"CEAT SecuraDrive 175/65 R14", brand:"CEAT", price:3999, oldPrice:null, icon:"🛞", badge:"new", rating:4.6, reviews:45 },
+  { id:12, name:"Exide Matrix 55Ah Battery", brand:"Exide", price:3799, oldPrice:4199, icon:"🔋", badge:"new", rating:4.7, reviews:203 },
+];
+
+let cart = {};
+
+function stars(r) {
+  return '★'.repeat(Math.floor(r)) + (r % 1 >= 0.5 ? '½' : '') + `<span class="reviews">(${r})</span>`;
+}
+
+function renderProducts(list, containerId) {
+  const grid = document.getElementById(containerId);
+  grid.innerHTML = list.map(p => `
+    <div class="product-card">
+      <div class="product-img">
+        ${p.icon}
+        ${p.badge ? `<span class="badge-label badge-${p.badge}">${p.badge.toUpperCase()}</span>` : ''}
+      </div>
+      <div class="product-info">
+        <div class="product-brand">${p.brand}</div>
+        <div class="product-name">${p.name}</div>
+        <div class="stars">${stars(p.rating)} <span class="reviews">${p.reviews.toLocaleString()} reviews</span></div>
+        <div class="product-price">
+          <span class="price-current">₹${p.price.toLocaleString()}</span>
+          ${p.oldPrice ? `<span class="price-old">₹${p.oldPrice.toLocaleString()}</span>` : ''}
+        </div>
+        <div class="product-actions">
+          <button class="btn-cart" onclick="addToCart(${p.id})">Add to Cart</button>
+          <button class="btn-wish">♡</button>
+        </div>
+      </div>
+    </div>
+  `).join('');
+}
+
+function addToCart(id) {
+  const p = [...products, ...newArrivals].find(x => x.id === id);
+  if (!p) return;
+  cart[id] = cart[id] ? { ...cart[id], qty: cart[id].qty + 1 } : { ...p, qty: 1 };
+  updateCart();
+  showToast(`${p.name.slice(0,30)}... added to cart!`);
+}
+
+function updateCart() {
+  const count = Object.values(cart).reduce((s, i) => s + i.qty, 0);
+  document.getElementById('cartCount').textContent = count;
+  const items = document.getElementById('cartItems');
+  const footer = document.getElementById('cartFooter');
+  if (!count) {
+    items.innerHTML = '<p style="color:var(--muted);text-align:center;margin-top:3rem;font-size:14px;">Your cart is empty</p>';
+    footer.style.display = 'none';
+    return;
+  }
+  footer.style.display = 'block';
+  items.innerHTML = Object.values(cart).map(i => `
+    <div class="cart-item">
+      <div class="cart-item-img">${i.icon}</div>
+      <div class="cart-item-info">
+        <p>${i.name.slice(0,40)}${i.name.length>40?'...':''}</p>
+        <span>${i.brand}</span>
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-top:.4rem">
+          <div class="qty-ctrl">
+            <button class="qty-btn" onclick="changeQty(${i.id},-1)">−</button>
+            <span class="qty-val">${i.qty}</span>
+            <button class="qty-btn" onclick="changeQty(${i.id},1)">+</button>
+          </div>
+          <button class="remove-btn" onclick="removeItem(${i.id})">Remove</button>
+        </div>
+      </div>
+      <div class="cart-item-price">₹${(i.price*i.qty).toLocaleString()}</div>
+    </div>
+  `).join('');
+  const total = Object.values(cart).reduce((s, i) => s + i.price * i.qty, 0);
+  document.getElementById('cartTotal').textContent = '₹' + total.toLocaleString();
+}
+
+function changeQty(id, delta) {
+  if (!cart[id]) return;
+  cart[id].qty += delta;
+  if (cart[id].qty <= 0) delete cart[id];
+  updateCart();
+}
+
+function removeItem(id) {
+  delete cart[id];
+  updateCart();
+}
+
+function toggleCart() {
+  document.getElementById('cartSidebar').classList.toggle('open');
+  document.getElementById('overlay').classList.toggle('open');
+}
+
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  document.getElementById('toastMsg').textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 3000);
+}
+
+// Countdown Timer
+let totalSecs = 4 * 3600 + 37 * 60 + 22;
+setInterval(() => {
+  if (totalSecs <= 0) return;
+  totalSecs--;
+  const h = Math.floor(totalSecs / 3600);
+  const m = Math.floor((totalSecs % 3600) / 60);
+  const s = totalSecs % 60;
+  document.getElementById('hours').textContent = String(h).padStart(2,'0');
+  document.getElementById('mins').textContent = String(m).padStart(2,'0');
+  document.getElementById('secs').textContent = String(s).padStart(2,'0');
+}, 1000);
+
+renderProducts(products, 'productGrid');
+renderProducts(newArrivals, 'newArrivalsGrid');
+</script>
+</body>
+</html>
